@@ -39,20 +39,21 @@ class MyStackTest {
 		}
 		assertThrowsExactly(NoSuchElementException.class, () -> myStack.pop());
 	}
+
 	@Test
 	void isEmptyTest() {
-		
-	}
-	
-	@Test
-	void getMaxTest() {
-//		assertEquals(957, myStack.getMax());
-//		myStack.pop();
-//		assertEquals(957, myStack.getMax());
-
-		for (int i = 0; i < myStack.toArray().length - 1; i++) {
+		for (int i = 0; i < testArray.length; i++) {
 			myStack.pop();
 		}
-		assertThrowsExactly(NoSuchElementException.class, () -> myStack.getMax());
+		assertTrue(myStack.isEmpty());
+	}
+
+	@Test
+	void getMaxTest() {
+		assertEquals(957, myStack.getMax());
+		myStack.pop();
+		assertEquals(957, myStack.getMax());
+		MyStack<Integer> newStack = new MyStack<Integer>();
+		assertThrowsExactly(NoSuchElementException.class, () -> newStack.getMax());
 	}
 }

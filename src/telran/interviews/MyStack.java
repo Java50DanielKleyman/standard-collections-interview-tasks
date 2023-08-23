@@ -11,7 +11,7 @@ public class MyStack<T> {
 	private Comparator<T> comparator;
 
 	public MyStack(Comparator<T> comp) {
-		comparator = comp;		
+		comparator = comp;
 		myLinkedList = new LinkedList<T>();
 		maxValues = new ArrayList<T>();
 
@@ -28,7 +28,7 @@ public class MyStack<T> {
 			maxValues.add(element);
 		} else {
 			maxValues.add(maxValues.get(maxValues.size() - 1));
-		}		
+		}
 	}
 
 	public T pop() {
@@ -36,7 +36,7 @@ public class MyStack<T> {
 			throw new NoSuchElementException("empty stack");
 		}
 		T removedElement = myLinkedList.removeLast();
-		maxValues.remove(maxValues.size() - 1);		
+		maxValues.remove(maxValues.size() - 1);
 		return removedElement;
 	}
 
@@ -45,6 +45,7 @@ public class MyStack<T> {
 			return true;
 		}
 		return false;
+
 	}
 
 	public T getMax() {
