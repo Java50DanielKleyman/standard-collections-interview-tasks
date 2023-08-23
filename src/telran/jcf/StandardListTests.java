@@ -9,6 +9,7 @@ import java.util.*;
 class StandardListTests {
 
 	@BeforeEach
+	
 	void setUp() throws Exception {
 	}
 
