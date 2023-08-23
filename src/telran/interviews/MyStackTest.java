@@ -53,6 +53,10 @@ class MyStackTest {
 		assertEquals(957, myStack.getMax());
 		myStack.pop();
 		assertEquals(957, myStack.getMax());
+		for (int i = 3; i > 0; i--) {
+			myStack.pop();
+		}
+		assertEquals(12, myStack.getMax());
 		MyStack<Integer> newStack = new MyStack<Integer>();
 		assertThrowsExactly(NoSuchElementException.class, () -> newStack.getMax());
 	}
