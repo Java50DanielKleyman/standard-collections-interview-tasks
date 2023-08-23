@@ -1,32 +1,48 @@
 package telran.interviews;
 
 import java.util.Comparator;
-//Requirement: all methods must have complexity O[1]
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
+
 public class MyStack<T> {
-	//TODO insert the required fields
+	private LinkedList<T> myLinkedList = new LinkedList<T>();
+	
+	private PriorityQueue<T> myPriorityQueue; 
+	
 	public MyStack(Comparator<T> comp) {
-		//TODO comparator for comparing two objects of a class T
+		  myPriorityQueue = new PriorityQueue<>(comp);
 		
 	}
+	@SuppressWarnings("unchecked")
 	public MyStack() {
-		//TODO for comparing in the natural order (Comparable)
+		this((Comparator<T>) Comparator.reverseOrder());
 	}
 	
   public void push(T element) {
-	  //TODO adds element to the stack's top (last element of the stack)
+	  myLinkedList.add(element);
+	  myPriorityQueue.add(element);
   }
   public T pop() {
-	  //TODO removes the stack's top element and returns it out
-	  //In the case no elements exist in the stack the method throws exception NoSuchElementException
-	  return null;
+	 if(isEmpty()) {
+		 throw new NoSuchElementException("empty stack");
+	 }	 
+	 T removedElement = myLinkedList.removeLast();
+	  myPriorityQueue.remove(removedElement);
+	 
+	  return removedElement;
   }
   public boolean isEmpty() {
-	  //TODO returns true if the stack is empty otherwise false
+	  if(myLinkedList.size() == 0 && myPriorityQueue.size()==0) {
+		  return true;
+	  }
 	  return false;
   }
   public T getMax() {
-	  //TODO returns maximal element from the stack
-	  //In the case no elements exist in the stack the method throws exception NoSuchElementException
-	  return null;
+	  if(isEmpty()) {
+			 throw new NoSuchElementException("empty stack");
+		 }	  
+	 
+	  return myPriorityQueue.peek();
   }
 }
