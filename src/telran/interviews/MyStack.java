@@ -45,4 +45,8 @@ public class MyStack<T> {
 	 
 	  return myPriorityQueue.peek();
   }
+  @SuppressWarnings("unchecked")
+public T [] toArray() {
+	  return (T[]) myLinkedList.toArray();
+  }
 }
