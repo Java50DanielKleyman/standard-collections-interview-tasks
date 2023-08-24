@@ -10,7 +10,10 @@ public class ShootingRating {
 		for (int e : hittingResults) {
 			pq.add(e);
 		}
-		Integer[] resArray = pq.toArray(new Integer[0]);
+		Integer[] resArray = new Integer [hittingResults.length];
+		for(int i = 0; i < resArray.length; i++) {
+			resArray[i] = pq.poll();
+		}		
 		return resArray[resIndex];
 	}
 
