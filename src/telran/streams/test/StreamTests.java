@@ -18,7 +18,7 @@ class StreamTests {
 @Test
 void printDigitStatisticsTest() {
 	StreamTasks streamTask = new StreamTasks();
-	streamTask.printDigitStatistics();
+	streamTask.printDigitStatistics1();
 }
 	
 	@Test
