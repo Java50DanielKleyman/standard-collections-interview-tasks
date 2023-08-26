@@ -1,4 +1,4 @@
-package telran.interviews;
+package telran.streams;
 
 import java.util.IntSummaryStatistics;
 import java.util.List;
