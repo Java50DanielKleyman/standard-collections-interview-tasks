@@ -7,57 +7,62 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import telran.interviews.MyStack;
+
 class MyStackTest {
-
-	private MyStack<Integer> myStack;
-	private Integer[] testArray = { 5, 12, 957, -30, 46, 85 };
-
+	int ar[]= {100_000,50_000,100_000,20,20,20,2_000_000, 2_000_000};
+	MyStack<Integer> myStack;
+	MyStack<String> emptyStack = new MyStack<>();
 	@BeforeEach
-	void setUp() {
+	void setUp() throws Exception {
 		myStack = new MyStack<>();
-		for (Integer elm : testArray) {
-			myStack.push(elm);
+		fillStack(myStack);
+	}
+
+
+
+	private void fillStack(MyStack<Integer> stack) {
+		for(int num: ar) {
+			stack.push(num);
 		}
 	}
 
+	
+
 	@Test
-	void pushTest() {
-		Integer[] expected = { 5, 12, 957, -30, 46, 85 };
-		assertArrayEquals(expected, myStack.toArray());
+	void testPop() {
+		assertEquals(2_000_000, myStack.pop());
+		assertEquals(2_000_000, myStack.pop());
+		assertThrowsExactly(NoSuchElementException.class, () -> emptyStack.pop());
+		
 	}
 
 	@Test
-	void popTest() {
-		Integer[] expected = { 5, 12, 957, -30, 46 };
-		int removed = myStack.pop();
-		assertArrayEquals(expected, myStack.toArray());
-		assertEquals(85, removed);
-		removed = myStack.pop();
-		assertEquals(46, removed);
-		for (int i = 0; i < expected.length - 1; i++) {
-			myStack.pop();
-		}
-		assertThrowsExactly(NoSuchElementException.class, () -> myStack.pop());
+	void testIsEmpty() {
+		assertFalse(myStack.isEmpty());
+		assertTrue(emptyStack.isEmpty());
 	}
 
 	@Test
-	void isEmptyTest() {
-		for (int i = 0; i < testArray.length; i++) {
-			myStack.pop();
-		}
-		assertTrue(myStack.isEmpty());
-	}
-
-	@Test
-	void getMaxTest() {
-		assertEquals(957, myStack.getMax());
+	void testGetMax() {
+		assertEquals(2_000_000, myStack.getMax());
 		myStack.pop();
-		assertEquals(957, myStack.getMax());
-		for (int i = 3; i > 0; i--) {
-			myStack.pop();
-		}
-		assertEquals(12, myStack.getMax());
-		MyStack<Integer> newStack = new MyStack<Integer>();
-		assertThrowsExactly(NoSuchElementException.class, () -> newStack.getMax());
+		assertEquals(2_000_000, myStack.getMax());
+		myStack.pop();
+		assertEquals(100_000, myStack.getMax());
+		myStack.push(100);
+		assertEquals(100_000, myStack.getMax());
+		myStack.push(1_000_000);
+		assertEquals(1_000_000, myStack.getMax());
+		assertThrowsExactly(NoSuchElementException.class, () -> emptyStack.getMax());
+		
+		
 	}
+	@Test
+	void testComparator() {
+		MyStack<Integer> reversedStack = new MyStack<>((a, b) -> Integer.compare(b, a));
+		fillStack(reversedStack);
+		assertEquals(20, reversedStack.getMax());
+	}
+
 }

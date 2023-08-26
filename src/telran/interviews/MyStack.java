@@ -1,63 +1,42 @@
 package telran.interviews;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-
+import java.util.*;
+//Requirement: all methods must have complexity O[1]
 public class MyStack<T> {
-	private LinkedList<T> myLinkedList;
-	private ArrayList<T> maxValues;
-	private Comparator<T> comparator;
-
+	LinkedList<T> values = new LinkedList<>();
+	LinkedList<T> maxValues = new LinkedList<>();
+	Comparator<T> comp;
 	public MyStack(Comparator<T> comp) {
-		comparator = comp;
-		myLinkedList = new LinkedList<T>();
-		maxValues = new ArrayList<T>();
-
+		this.comp = comp;
 	}
-
 	@SuppressWarnings("unchecked")
 	public MyStack() {
-		this((Comparator<T>) Comparator.naturalOrder());
+		this((Comparator<T>)Comparator.naturalOrder());
 	}
-
-	public void push(T element) {
-		myLinkedList.add(element);
-		if (maxValues.isEmpty() || comparator.compare(element, maxValues.get(maxValues.size() - 1)) >= 0) {
-			maxValues.add(element);
-		} else {
-			maxValues.add(maxValues.get(maxValues.size() - 1));
-		}
-	}
-
-	public T pop() {
-		if (isEmpty()) {
-			throw new NoSuchElementException("empty stack");
-		}
-		T removedElement = myLinkedList.removeLast();
-		maxValues.remove(maxValues.size() - 1);
-		return removedElement;
-	}
-
-	public boolean isEmpty() {
-		if (myLinkedList.size() == 0 && maxValues.size() == 0) {
-			return true;
-		}
-		return false;
-
-	}
-
-	public T getMax() {
-		if (isEmpty()) {
-			throw new NoSuchElementException("empty stack");
-		}
-
-		return maxValues.get(maxValues.size() - 1);
-	}
-
-	@SuppressWarnings("unchecked")
-	public T[] toArray() {
-		return (T[]) myLinkedList.toArray();
-	}
+	
+  public void push(T element) {
+	  values.add(element);
+	  if(maxValues.isEmpty() || comp.compare(element,maxValues.getLast()) >= 0) {
+		  maxValues.add(element);
+	  }
+	  
+  }
+  public T pop() {
+	  //TODO removes the stack's top element and returns it out
+	  //In the case no elements exist in the stack the method throws exception NoSuchElementException
+	  T element = values.removeLast();
+	  if (comp.compare(element, maxValues.getLast()) == 0) {
+		  maxValues.removeLast();
+	  }
+	  return element;
+  }
+  public boolean isEmpty() {
+	  
+	  return values.isEmpty();
+  }
+  public T getMax() {
+	  //TODO returns maximal element from the stack
+	  //In the case no elements exist in the stack the method throws exception NoSuchElementException
+	  return maxValues.getLast();
+  }
 }
