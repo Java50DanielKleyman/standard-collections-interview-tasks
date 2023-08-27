@@ -2,6 +2,7 @@ package add14;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
@@ -54,26 +55,41 @@ public class NestedIterator<E> implements Iterator<E>, Iterable<E> {
 
 	@SuppressWarnings("unchecked")
 	private boolean findNext() {
-		if (it.next() == null) {
+		if (!it.hasNext()) {
 			return false;
 		}
+		if (it.next() == null) {
+            return false;
+        }
 		if (!(it.next() instanceof Iterable) && !it.next().getClass().isArray()) {
 			next = (E) it.next();
 			return true;
 		}
-		if (it.next() instanceof Iterable) {
-			return stackIterable();
+		return stackIterable((Iterable<?>) it.next());
+	}
+
+	@SuppressWarnings("unchecked")
+	private boolean stackIterable(Iterable<?> iterable) {
+		LinkedList<Object> stack = new LinkedList<>();
+		stack.add(iterable.iterator());
+
+		while (!stack.isEmpty()) {
+			Iterator<?> current = (Iterator<?>) stack.peek();
+			if (current.hasNext()) {
+				Object item = current.next();
+				if (item instanceof Iterable) {
+					stack.push(((Iterable<?>) item).iterator());
+				} else if (item.getClass().isArray()) {
+					stack.push(Arrays.asList((Object[]) item).iterator());
+				} else {
+					next = (E) item;
+					return true;
+				}
+			} else {
+				stack.pop();
+			}
 		}
-		return stackArray();
-	}
 
-	private boolean stackArray() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private boolean stackIterable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
