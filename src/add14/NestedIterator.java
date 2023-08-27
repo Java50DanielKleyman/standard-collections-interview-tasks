@@ -54,15 +54,31 @@ public class NestedIterator<E> implements Iterator<E>, Iterable<E> {
 
 	@SuppressWarnings("unchecked")
 	private boolean findNext() {
+		if (it.next() == null) {
+			return false;
+		}
 		if (!(it.next() instanceof Iterable) && !it.next().getClass().isArray()) {
 			next = (E) it.next();
 			return true;
 		}
+		if (it.next() instanceof Iterable) {
+			return stackIterable();
+		}
+		return stackArray();
+	}
+
+	private boolean stackArray() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private boolean stackIterable() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Iterator<E> iterator() { // implementation of Iterable imnterface
+	public Iterator<E> iterator() {
 		return this;
 	}
 }
