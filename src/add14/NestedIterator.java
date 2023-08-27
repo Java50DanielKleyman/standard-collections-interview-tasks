@@ -3,6 +3,7 @@ package add14;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -21,25 +22,39 @@ import java.util.NoSuchElementException;
 public class NestedIterator<E> implements Iterator<E>, Iterable<E> {
 
 	private E next;
-	private boolean hasNext;
-	Iterator<?> it;
-	E[] array;
-	LinkedList<Object> stack;
+	private boolean hasNext;	
+	private LinkedList<Iterator<?>> stack;
 
-	@SuppressWarnings("unchecked")
 	public NestedIterator(Object... params) {
-		array = (E[]) params;
-		it = Arrays.asList(array).iterator();
+		List<Object> paramList = Arrays.asList(params);
 		stack = new LinkedList<>();
+		stack.push(paramList.iterator());
 		findNext();
-		hasNext = it.hasNext();
-//		next = getNext();
-
 	}
 
-	private E getNext() {
-		findNext();
-		return next;
+	private void findNext() {
+		while (!stack.isEmpty()) {
+			Iterator<?> current = stack.peek();
+			if (current.hasNext()) {
+				Object item = current.next();
+				if (item == null) {
+					next = null;
+					hasNext = true;
+					return;
+				} else if (item instanceof Iterable) {
+					stack.push(((Iterable<?>) item).iterator());
+				} else if (item.getClass().isArray()) {
+					stack.push(Arrays.asList((Object[]) item).iterator());
+				} else {
+					next = (E) item;
+					hasNext = true;
+					return;
+				}
+			} else {
+				stack.pop();
+			}
+		}
+		hasNext = false;
 	}
 
 	@Override
@@ -47,82 +62,19 @@ public class NestedIterator<E> implements Iterator<E>, Iterable<E> {
 		return hasNext;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public E next() {
 		if (!hasNext) {
 			throw new NoSuchElementException();
 		}
 		E result = next;
-		Object currentItem = it.next();
-		if (stack.isEmpty()) {
-			hasNext = findNext();
-		} else {
-
-			if (currentItem != null && !(currentItem instanceof Iterable) && !currentItem.getClass().isArray()) {
-				next = (E) currentItem;
-				hasNext = true;
-			} else {
-				hasNext = stackIterable(currentItem);
-			}
-		}
+		findNext();
 		return result;
-	}
-
-	@SuppressWarnings("unchecked")
-	private boolean findNext() {
-		if (!it.hasNext()) {
-			return false;
-		}
-
-		Object nextItem = it.next();
-		if (nextItem == null) {
-			return false;
-		}
-
-		if (!(nextItem instanceof Iterable) && !nextItem.getClass().isArray()) {
-			next = (E) nextItem;
-			return true;
-		}
-
-		return stackIterable(nextItem);
-	}
-
-	@SuppressWarnings("unchecked")
-	private boolean stackIterable(Object nextItem) {
-		if (nextItem == null) {
-	        stack.pop();  
-	        return false;
-	    }
-		Iterator<Object> iterator = null;
-		if (nextItem.getClass().isArray()) {
-			iterator = Arrays.asList((Object[]) nextItem).iterator();
-		} else {
-			iterator = (Iterator<Object>) ((Iterable<?>) nextItem).iterator();
-		}
-		stack.add(iterator);
-
-		while (!stack.isEmpty()) {
-			Iterator<?> current = (Iterator<?>) stack.peek();
-			if (current.hasNext()) {
-				Object item = current.next();
-				if (item instanceof Iterable) {
-					stack.push(((Iterable<?>) item).iterator());
-				} else if (item.getClass().isArray()) {
-					stack.push(Arrays.asList((Object[]) item).iterator());
-				} else {
-					next = (E) item;
-					return true;
-				}
-			} else {
-				stack.pop();
-			}
-		}
-		return false;
 	}
 
 	@Override
 	public Iterator<E> iterator() {
 		return this;
 	}
+
 }
