@@ -9,15 +9,6 @@ public class Anagram {
 				.collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));
 		Map<Character, Long> mapAnagram = anagram.chars().mapToObj(ch -> (char) ch)
 				.collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));
-		if (mapStr.size() != mapAnagram.size()) {
-			return false;
-		}		
-		for (int i = 0; i < str.length(); i++) {
-			if (mapStr.get(anagram.charAt(i)) == null
-					|| mapStr.get(anagram.charAt(i)) != mapAnagram.get(anagram.charAt(i))) {
-				return false;
-			}
-		}
-		return true;
+		return mapStr.equals(mapAnagram);
 	}
 }
