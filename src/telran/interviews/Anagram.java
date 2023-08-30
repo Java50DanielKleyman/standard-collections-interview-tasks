@@ -11,10 +11,10 @@ public class Anagram {
 				.collect(Collectors.groupingBy(ch -> ch, Collectors.counting()));
 		if (mapStr.size() != mapAnagram.size()) {
 			return false;
-		}
-		for (char ch: anagram) {
-			if (mapStr.get(anagram.charAt(ch)) == null
-					|| mapStr.get(anagram.charAt(ch)) != mapAnagram.get(anagram.charAt(ch))) {
+		}		
+		for (int i = 0; i < str.length(); i++) {
+			if (mapStr.get(anagram.charAt(i)) == null
+					|| mapStr.get(anagram.charAt(i)) != mapAnagram.get(anagram.charAt(i))) {
 				return false;
 			}
 		}
