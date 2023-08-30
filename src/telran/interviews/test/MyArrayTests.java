@@ -40,6 +40,10 @@ class MyArrayTests {
 			for(int i = 0; i < LENGTH; i++) {
 				assertEquals(OTHER_VALUE, array.get(i));
 			}
+			assertThrowsExactly(IndexOutOfBoundsException.class, () -> array.set(-1, 10));
+			assertThrowsExactly(IndexOutOfBoundsException.class, () -> array.set(1000, 10));
+			assertThrowsExactly(IndexOutOfBoundsException.class, () -> array.get(1000));
+			assertThrowsExactly(IndexOutOfBoundsException.class, () -> array.get(-1000));
 			
 		}
 
