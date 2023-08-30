@@ -32,6 +32,7 @@ public class NestedIterator<E> implements Iterator<E>, Iterable<E> {
 		findNext();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void findNext() {
 		while (!stack.isEmpty()) {
 			Iterator<?> current = stack.peek();

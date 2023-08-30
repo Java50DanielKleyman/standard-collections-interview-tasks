@@ -15,10 +15,15 @@ class StreamTests {
 	@BeforeEach
 	void setUp() throws Exception {
 	}
+	@Test
+	void printSportLotoNumbersTest() {
+		StreamTasks.printSportLotoNumbers();
+	}
 @Test
+@Disabled
 void printDigitStatisticsTest() {
 	StreamTasks streamTask = new StreamTasks();
-	streamTask.printDigitStatistics1();
+	streamTask.printDigitStatistics();
 }
 	
 	@Test

@@ -1,7 +1,5 @@
 package telran.streams;
 
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -11,6 +9,11 @@ import java.util.stream.Stream;
 public class StreamTasks {
 	private static final int NUMBERS = 1000000;
 
+static public void printSportLotoNumbers(){
+	new Random().ints(1, 50).distinct().limit(6).forEach(n->System.out.print(n + " "));
+}
+	
+	
 	public void printDigitStatistics() {
 		String numbers = new Random().ints(NUMBERS, 0, Integer.MAX_VALUE)
 				.boxed()
