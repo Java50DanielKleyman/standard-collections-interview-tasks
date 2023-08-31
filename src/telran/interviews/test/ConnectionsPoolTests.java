@@ -17,7 +17,7 @@ class ConnectionsPoolTests {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		map = new ConnectionsPoolClass();
+		map = new ConnectionsPoolClass(3);
 		map.addConnection(connection1);
 		map.addConnection(connection2);
 		map.addConnection(connection3);
