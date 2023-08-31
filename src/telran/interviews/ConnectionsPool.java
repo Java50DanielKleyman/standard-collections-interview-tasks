@@ -1,8 +1,5 @@
 package telran.interviews;
 
-import java.util.LinkedHashMap;
-
-
 public interface ConnectionsPool {	
 
 	/**
