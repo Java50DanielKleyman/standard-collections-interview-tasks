@@ -1,22 +1,26 @@
 package telran.interviews;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ConnectionsPoolClass implements ConnectionsPool {
 	LinkedHashMap<Integer, Connection> map;
 	int size;
 
+	@SuppressWarnings("serial")
 	public ConnectionsPoolClass(int size) {
 		this.size = size;
-		map = new LinkedHashMap<>(size, 0.75f, true);
+		map = new LinkedHashMap<Integer, Connection>(size, 0.75f, true) {
+			@Override
+			protected boolean removeEldestEntry(Map.Entry<Integer, Connection> entry) {
+				return size() > size;
+			};
+		};
 	}
 
 	@Override
 	public boolean addConnection(Connection connection) {
 		if (map.get(connection.getId()) == null) {
-			if (map.size() == size) {
-				map.remove(map.keySet().iterator().next());
-			}
 			map.put(connection.getId(), connection);
 
 			return true;
