@@ -10,7 +10,7 @@ public class ConnectionsPoolClass implements ConnectionsPool {
 	@SuppressWarnings("serial")
 	public ConnectionsPoolClass(int size) {
 		this.size = size;
-		map = new LinkedHashMap<Integer, Connection>(size, 0.75f, true) {
+		map = new LinkedHashMap<Integer, Connection>(16, 0.75f, true) {
 			@Override
 			protected boolean removeEldestEntry(Map.Entry<Integer, Connection> entry) {
 				return size() > size;
