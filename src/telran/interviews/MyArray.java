@@ -11,50 +11,44 @@ import java.util.Map;
  * @param <T>
  */
 public class MyArray<T> {
-	Map<Integer, T> map;
-	int size;
-
+	private T allValues;
+	private int size;
+	private HashMap<Integer, T> mapOfSets;
 	public MyArray(int size) {
-		map = new HashMap<>(size);
 		this.size = size;
+		mapOfSets = new HashMap<>();
 	}
-
 	/**
 	 * sets all array's elements with a given value
-	 * 
 	 * @param value
 	 */
 	public void setAll(T value) {
-
-		for(int i = 0; i < size; i++) {
-			map.put(i, value);
-		}
+		
+		mapOfSets = new HashMap<>();
+		allValues = value;
 	}
-
-
 	/**
 	 * 
 	 * @param index
 	 * @return value at given index or null if index is wrong
 	 */
 	public T get(int index) {
-		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException();
+		T res = null;
+		if (index > -1 && index < size) {
+			res = mapOfSets.getOrDefault(index, allValues);
 		}
-		return map.get(index);
+		return res;
 	}
-
 	/**
-	 * sets a given value at a given index throws IndexOutOfBoundsException in the
-	 * case of wrong index
-	 * 
+	 * sets a given value at a given index
+	 * throws IndexOutOfBoundsException in the case of wrong index
 	 * @param index
 	 * @param value
 	 */
 	public void set(int index, T value) {
-		if (index >= size || index < 0) {
-			throw new IndexOutOfBoundsException();
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException(index);
 		}
-		map.put(index, value);
+		mapOfSets.put(index, value);
 	}
 }
