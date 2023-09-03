@@ -15,12 +15,20 @@ public class InterviewTasks {
 
 	static public List<DateRole> rolesInDates(List<DateRole> datesRoles, List<LocalDate> dates) {
 		List<DateRole> result = new ArrayList<>();
-		
-		for(int i = 0; i < dates.size(); i++) {
-			if(dates.get(0).isBefore(datesRoles.get(0).date)) {
-				
+		for (LocalDate date : dates) {
+			DateRole res;
+			int i = 0;
+			while (date.isAfter(datesRoles.get(i).date)) {
+				i++;
 			}
+			if (i > 0) {
+				res = new DateRole(date, datesRoles.get(i - 1).role);
+			} else {
+				res = new DateRole(date, null);
+			}
+			result.add(res);
 		}
+
 		return result;
 
 	}
