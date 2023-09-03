@@ -28,10 +28,9 @@ public class WordsAutoCompletion implements Words {
 		        if (key.startsWith(prefix.toLowerCase())) {
 		            list.add(entry.getValue());
 		        } else {
-		            break; // Exit the loop once prefixes no longer match
+		            break;
 		        }
 		    }
-
 		
 		return list;
 	}
