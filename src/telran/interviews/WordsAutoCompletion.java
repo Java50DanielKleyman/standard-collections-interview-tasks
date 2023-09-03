@@ -20,8 +20,19 @@ public class WordsAutoCompletion implements Words {
 
 	@Override
 	public List<String> getWordsByPrefix(String prefix) {		
-		Map<String, String> sorted = map.tailMap(prefix, true);
-		List<String> list = new ArrayList<String>(sorted.values());
+		Map<String, String> sorted = map.tailMap(prefix.toLowerCase());
+//		List<String> list = new ArrayList<String>(sorted.values());
+		 List<String> list = new ArrayList<>();
+		 for (Map.Entry<String, String> entry : sorted.entrySet()) {
+		        String key = entry.getKey();
+		        if (key.startsWith(prefix.toLowerCase())) {
+		            list.add(entry.getValue());
+		        } else {
+		            break; // Exit the loop once prefixes no longer match
+		        }
+		    }
+
+		
 		return list;
 	}
 
