@@ -18,7 +18,7 @@ public class InterviewTasks {
 		for (LocalDate date : dates) {
 			DateRole res;
 			int i = 0;
-			while (date.isAfter(datesRoles.get(i).date)) {
+			while (i < datesRoles.size() && date.isAfter(datesRoles.get(i).date)) {
 				i++;
 			}
 			if (i > 0) {
