@@ -18,18 +18,10 @@ public class InterviewTasks {
 	}
 
 	private static DateRole checkDate(List<DateRole> datesRoles, LocalDate date) {
-		DateRole res;
-		int i = 0;
-		while (i < datesRoles.size() && date.isAfter(datesRoles.get(i).date)) {
-			i++;
-		}
-		if (i > 0) {
-			res = new DateRole(date, datesRoles.get(i - 1).role);
-		} else {
-			res = new DateRole(date, null);
-		}
-
-		return res;
+		return datesRoles.stream()
+				.filter(dateRole -> date.isAfter(dateRole.date))
+				.collect(Collectors.collectingAndThen(Collectors.toList(), list -> 
+				list.isEmpty() ? new DateRole(date, null) : new DateRole(date, list.get(list.size() - 1).role)));
 	}
 
 	static public void displayShuffled(int[] ar) {
