@@ -21,7 +21,8 @@ public class InterviewTasks {
 		return datesRoles.stream()
 				.filter(dateRole -> date.isAfter(dateRole.date))
 				.collect(Collectors.collectingAndThen(Collectors.toList(), list -> 
-				list.isEmpty() ? new DateRole(date, null) : new DateRole(date, list.get(list.size() - 1).role)));
+				list.isEmpty() ? new DateRole(date, null) 
+				: new DateRole(date, list.get(list.size() - 1).role)));
 	}
 
 	static public void displayShuffled(int[] ar) {
